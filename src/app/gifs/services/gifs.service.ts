@@ -7,6 +7,7 @@ import { Gif, SearchGifsResponse } from '../interfaces/gifs.interfaces';
 })
 export class GifsService {
   private apiKey = '8EJFCBTVYRrrnuan7yLLwRClF6AG1M6H';
+  private baseUrl = 'https://api.giphy.com/v1/gifs';
   private _historial: string[] = [];
   public resultados: Gif[] = [];
 
@@ -31,9 +32,8 @@ export class GifsService {
                       .set('api_key', this.apiKey)
                       .set('q', query)
                       .set('limit', '10');
-                      
     
-    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
+    this.http.get<SearchGifsResponse>(`${this.baseUrl}/search`, {params})
              .subscribe(resp=>{
               this.resultados = resp.data;
               localStorage.setItem("lastSearch", JSON.stringify(this.resultados));
